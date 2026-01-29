@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Book;
+use Illuminate\Http\Request;
+
+class BookController extends Controller
+{
+    // Show all books (admin CRUD listing)
+    public function index()
+    {
+        $books = Book::all();
+        return view('books.index', compact('books'));
+    }
+
+    // Show form to create new book
+    public function create()
+    {
+        return view('books.create');
+    }
+
+    // Store new book
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'author' => 'required',
+            'year' => 'nullable|integer',
+            'price' => 'nullable|numeric',
+            'category' => 'nullable|string',
+        ]);
+
+        Book::create($request->only(['title','author','year','price','category']));
+
+        return redirect()->route('books.index')->with('success', 'Book added successfully.');
+    }
+
+    // Show single book
+    public function show(Book $book)
+    {
+        return view('books.show', compact('book'));
+    }
+
+    // Show form to edit book
+    public function edit(Book $book)
+    {
+        return view('books.edit', compact('book'));
+    }
+
+    // Update book
+    public function update(Request $request, Book $book)
+    {
+        $request->validate([
+            'title' => 'required',
+            'author' => 'required',
+            'year' => 'nullable|integer',
+            'price' => 'nullable|numeric',
+            'category' => 'nullable|string',
+        ]);
+
+        $book->update($request->only(['title','author','year','price','category']));
+
+        return redirect()->route('books.index')->with('success', 'Book updated successfully.');
+    }
+
+    // Delete book
+    public function destroy(Book $book)
+    {
+        $book->delete();
+        return redirect()->route('books.index')->with('success', 'Book deleted successfully.');
+    }
+
+    // Search books (user-facing) - returns user.books view with $title
+    public function search(Request $request)
+    {
+        $query = trim($request->input('query', ''));
+
+        $books = Book::when($query !== '', function ($q) use ($query) {
+            $q->where('title', 'LIKE', "%{$query}%")
+              ->orWhere('author', 'LIKE', "%{$query}%");
+        })->get();
+
+        $title = $query !== '' ? 'Search results for "' . e($query) . '"' : 'Search Results';
+
+        return view('user.books', compact('books', 'title'));
+    }
+}
