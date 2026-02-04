@@ -27,13 +27,11 @@
                 
                 @auth
                     <li><a href="{{ route('books.category', 'all') }}"><i class="fas fa-chevron-right"></i> Browse Books</a></li>
-                    {{-- 👇👇 UPDATED LINE (Icon added) 👇👇 --}}
                     <li><a href="{{ route('faq') }}"><i class="fas fa-chevron-right"></i> FAQ</a></li>
                     <li><a href="{{ route('rules') }}"><i class="fas fa-chevron-right"></i> Library Rules</a></li>
                 @else
                     <li><a href="{{ route('login') }}"><i class="fas fa-chevron-right"></i> Login</a></li>
                     <li><a href="{{ route('register') }}"><i class="fas fa-chevron-right"></i> Register</a></li>
-                    {{-- Agar guest user ko bhi FAQ dikhana hai to ye line yahan bhi add kar sakte hain --}}
                     <li><a href="{{ route('faq') }}"><i class="fas fa-chevron-right"></i> FAQ</a></li>
                 @endauth
             </ul>
@@ -56,18 +54,29 @@
         </div>
 
     </div>
+
+    <div class="footer-bottom">
+        <div>&copy; {{ date('Y') }} LibraryPRO Systems. All Rights Reserved.</div>
+        <div>Designed for readers, built by developers.</div>
+    </div>
 </footer>
 
 <style>
     /* Footer Base */
-    .pro-footer {
+   .pro-footer {
         background: linear-gradient(135deg, #015551 0%, #002b29 100%);
         color: #FDFBEE;
         padding-top: 60px;
-        margin-top: 50px;
         font-family: 'Segoe UI', sans-serif;
         box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
-        border-top: 5px solid #FE4F2D; /* Orange Line Top */
+        border-top: 5px solid #FE4F2D; 
+        
+        /* 🟢 FORCE FIX: Footer Overlap Issue */
+        position: relative !important; /* Fixed hatao */
+        bottom: auto !important;       /* Screen bottom se hatao */
+        z-index: 10;
+        flex-shrink: 0;                /* Footer ko sikurne se roko */
+        width: 100%;
     }
 
     .footer-container {
@@ -98,7 +107,7 @@
     .footer-logo span { color: #FE4F2D; }
     .footer-text { font-size: 14px; line-height: 1.6; opacity: 0.8; margin-bottom: 20px; }
 
-    /* Social Icons (Rotation Effect) */
+    /* Social Icons */
     .social-links { display: flex; gap: 10px; }
     .social-links a {
         width: 40px; height: 40px;
@@ -108,7 +117,7 @@
         text-decoration: none; transition: 0.4s;
     }
     .social-links a:hover {
-        transform: rotate(360deg) scale(1.1); /* Ghumne wala effect */
+        transform: rotate(360deg) scale(1.1);
     }
 
     /* Headings */
@@ -121,19 +130,16 @@
         width: 50px; height: 3px; background: #FE4F2D; border-radius: 2px;
     }
 
-    /* Quick Links (Slide Effect) */
+    /* Quick Links */
     .footer-links { list-style: none; padding: 0; }
     .footer-links li { margin-bottom: 12px; }
     .footer-links a {
         color: #ddd; text-decoration: none; font-size: 15px;
         transition: 0.3s; display: inline-block;
     }
-    /* Icon style for links */
     .footer-links a i { font-size: 12px; margin-right: 8px; color: #FE4F2D; transition: 0.3s; }
     
-    .footer-links a:hover {
-        transform: translateX(10px); /* Right Slide Effect */
-    }
+    .footer-links a:hover { transform: translateX(10px); }
     .footer-links a:hover i { margin-right: 12px; }
 
     /* Contact Info */
@@ -147,18 +153,16 @@
     /* Bottom Copyright Bar */
     .footer-bottom {
         background: rgba(0, 0, 0, 0.2);
-        padding: 20px;
+        padding: 20px 50px;
         text-align: center;
         font-size: 14px;
         color: #bbb;
         border-top: 1px solid rgba(255,255,255,0.05);
         display: flex;
         justify-content: space-between;
-        padding-left: 50px; padding-right: 50px;
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
-        .footer-bottom { flex-direction: column; gap: 10px; }
+        .footer-bottom { flex-direction: column; gap: 10px; padding: 20px; }
     }
 </style>

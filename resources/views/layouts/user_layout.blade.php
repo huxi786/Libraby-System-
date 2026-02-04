@@ -54,22 +54,21 @@
         }
 
         body {
-            margin: 0;
-            padding: 0;
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            transition: background-color 0.4s ease, color 0.4s ease;
+            overflow-x: hidden;
+        }
+
+        main {
+            width: 100%;
+            display: block;
         }
 
         /* --- ✨ GLASS NAVBAR --- */
         .navbar {
             background: var(--bg-glass);
             backdrop-filter: blur(12px);
-            /* Blur Effect */
             -webkit-backdrop-filter: blur(12px);
             padding: 15px 40px;
             display: flex;
@@ -174,7 +173,6 @@
             z-index: 2;
         }
 
-        /* Icons inside toggle */
         .slider .icon-sun,
         .slider .icon-moon {
             position: absolute;
@@ -269,7 +267,6 @@
             z-index: 1001;
         }
 
-        /* Triangle Arrow */
         .desktop-dropdown::before {
             content: '';
             position: absolute;
@@ -403,7 +400,6 @@
                 position: fixed;
                 top: 0;
                 right: -300px;
-                /* Right se aayega */
                 width: 280px;
                 height: 100vh;
                 background: var(--bg-card);
@@ -437,7 +433,6 @@
                 color: white;
             }
 
-            /* Mobile Toggle */
             .mobile-theme-box {
                 margin-top: 20px;
                 padding: 15px;
@@ -460,7 +455,6 @@
     <nav class="navbar">
         <a href="{{ route('home') }}" class="logo">LibraryPRO</a>
 
-        {{-- Desktop Nav --}}
         <div class="desktop-nav">
             <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
             @auth <a href="{{ route('user.dashboard') }}"
@@ -471,7 +465,6 @@
             <a href="{{ route('contact') }}"
                 class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
 
-            {{-- ☀️/🌑 Animated Toggle Switch --}}
             <div class="theme-switch-wrapper">
                 <label class="theme-switch" for="checkbox">
                     <input type="checkbox" id="checkbox" onchange="toggleTheme(this)">
@@ -483,7 +476,6 @@
             </div>
 
             @auth
-                {{-- Profile Dropdown --}}
                 <div class="profile-container">
                     <div class="profile-btn">
                         <div class="profile-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
@@ -511,13 +503,11 @@
             @endauth
         </div>
 
-        {{-- Mobile Controls --}}
         <div class="burger-menu" onclick="toggleMenu()">
             <i class="fas fa-bars" style="font-size: 20px;"></i>
         </div>
     </nav>
 
-    {{-- Mobile Drawer (Right Side Slide) --}}
     <div class="nav-drawer" id="navDrawer">
         <div style="display:flex; justify-content:space-between; margin-bottom:30px; align-items:center;">
             <span class="logo" style="font-size: 22px;">LibraryPRO</span>
@@ -540,7 +530,6 @@
         <a href="{{ route('contact') }}" class="drawer-item {{ request()->routeIs('contact') ? 'active' : '' }}"><i
                 class="fas fa-envelope"></i> Contact</a>
 
-        {{-- Mobile Theme Toggle --}}
         <div class="mobile-theme-box">
             <span>Appearance</span>
             <div class="theme-switch-wrapper">
@@ -569,11 +558,10 @@
         @yield('content')
     </main>
 
-    {{-- ✅ GLOBAL FOOTER INCLUDE --}}
+    {{-- ✅ FIXED: Using Partial Footer Only --}}
     @include('partials.footer')
 
     <script>
-        // --- 1. TOGGLE MENU ---
         function toggleMenu() {
             document.getElementById('navDrawer').classList.toggle('active');
             document.getElementById('mobileOverlay').classList.toggle('active');
@@ -595,12 +583,10 @@
             });
         }
 
-        // --- 2. DARK MODE LOGIC (Checkbox Based) ---
         const body = document.body;
         const toggleDesktop = document.getElementById('checkbox');
         const toggleMobile = document.getElementById('checkbox-mobile');
 
-        // Load Saved Theme
         if (localStorage.getItem('theme') === 'dark') {
             body.setAttribute('data-theme', 'dark');
             if (toggleDesktop) toggleDesktop.checked = true;
@@ -608,7 +594,6 @@
         }
 
         function toggleTheme(el) {
-            // Sync both checkboxes
             if (toggleDesktop) toggleDesktop.checked = el.checked;
             if (toggleMobile) toggleMobile.checked = el.checked;
 
@@ -621,7 +606,6 @@
             }
         }
 
-        // --- 3. TOAST NOTIFICATIONS ---
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',

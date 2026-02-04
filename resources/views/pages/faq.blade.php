@@ -265,7 +265,7 @@
     </div>
 </div>
 
-@include('partials.footer')
+{{-- @include('partials.footer') --}}
 
 <script>
     // Simple Accordion Script
